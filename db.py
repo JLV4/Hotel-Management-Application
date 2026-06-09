@@ -3,13 +3,9 @@ import sqlite3
 db_file = "Hotel_Management_System.db"
 
 def init_db():
-    print("Initializing database . . .")
-    delete_db()  # Delete existing database and tables if they exist
     with sqlite3.connect(db_file) as conn:
         cursor = conn.cursor()
         create_all_tables(cursor)
-
-    print("Database initialized successfully!")
 
 
 
@@ -68,7 +64,7 @@ def create_credit_card_table(cursor):
 
 def create_address_table(cursor):
     cursor.executescript("""
-        CREATE TABLE address (
+        CREATE TABLE IF NOT EXISTS address (
 	        city TEXT NOT NULL,
 	        address_num INT NOT NULL,
 	        street_name TEXT NOT NULL,
@@ -78,7 +74,7 @@ def create_address_table(cursor):
 
 def create_manager_table(cursor):
     cursor.executescript("""
-        CREATE TABLE manager (
+        CREATE TABLE IF NOT EXISTS manager (
 	        manager_name TEXT,
 	        manager_email TEXT,
 	        ssn INT NOT NULL,
@@ -88,7 +84,7 @@ def create_manager_table(cursor):
 
 def create_hotel_table(cursor):
     cursor.executescript("""
-        CREATE TABLE hotel (
+        CREATE TABLE IF NOT EXISTS hotel (
 	        hotel_name TEXT,
 	        hotel_id INT NOT NULL,
 	        city TEXT NOT NULL,
@@ -102,7 +98,7 @@ def create_hotel_table(cursor):
 
 def create_booking_table(cursor):
     cursor.executescript("""
-        CREATE TABLE booking (
+        CREATE TABLE IF NOT EXISTS booking (
 	        booking_id INT NOT NULL,
 	        price_per_day INT,
 	        start_date DATE NOT NULL,
@@ -118,7 +114,7 @@ def create_booking_table(cursor):
 
 def create_room_table(cursor):
     cursor.executescript("""
-        CREATE TABLE room (
+        CREATE TABLE IF NOT EXISTS room (
 	        room_num INT NOT NULL,
 	        num_windows INT,
 	        last_renov_year INT,
@@ -131,7 +127,7 @@ def create_room_table(cursor):
 
 def create_review_table(cursor):
     cursor.executescript("""
-        CREATE TABLE review (
+        CREATE TABLE IF NOT EXISTS review (
 	        rating INT CHECK (rating BETWEEN 0 AND 10),
 	        review_message TEXT,
 	        review_id INT NOT NULL,
@@ -145,7 +141,7 @@ def create_review_table(cursor):
 
 def create_client_address_table(cursor):
     cursor.executescript("""
-        CREATE TABLE client_address (
+        CREATE TABLE IF NOT EXISTS client_address (
 	        client_email TEXT NOT NULL,
 	        city TEXT NOT NULL,
 	        address_num INT NOT NULL,
@@ -158,7 +154,7 @@ def create_client_address_table(cursor):
 
 def create_manages_table(cursor):
     cursor.executescript("""
-        CREATE TABLE manages (
+        CREATE TABLE IF NOT EXISTS manages (
 	        ssn INT NOT NULL,
 	        hotel_id INT NOT NULL,
 	        PRIMARY KEY(ssn, hotel_id),
